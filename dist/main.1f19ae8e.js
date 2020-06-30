@@ -11341,14 +11341,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /*监听两个tab的点击事件*/
 var $tabBar = (0, _jquery.default)('#app2 .tab-bar');
-var $tabContent = (0, _jquery.default)('#app2 .tab-content'); // 监听父元素，这就是事件委托
+var $tabContent = (0, _jquery.default)('#app2 .tab-content');
+var localKey = 'app2.index';
+var index = localStorage.getItem(localKey) || 0; // 监听父元素，这就是事件委托
 
 $tabBar.on('click', 'li', function (e) {
   // 获取用户点击的是哪一个Li
   var $li = (0, _jquery.default)(e.currentTarget);
   $li.addClass('selected').siblings().removeClass('selected');
-  var index = $li.index();
-  console.log(index); // 不要用css, show, hide 这些api
+  index = $li.index();
+  localStorage.setItem(localKey, index); // 不要用css, show, hide 这些api
   // 而是应该添加一个类addclass, 然后在addclass里写css
   // js不关心css具体怎么实现
   // js不要直接操作css
@@ -11370,9 +11372,26 @@ var _jquery = _interopRequireDefault(require("jquery"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var $square = (0, _jquery.default)("#app3 .square");
+var localKey = 'app3-active';
+var active = localStorage.getItem(localKey) === 'yes'; // 用Localstorage的目的是在里面保存当前状态，这样等页面刷新之后，数据还会存在
+// if(active) {
+//     $square.addClass('active')
+// } else {
+//     $square.removeClass('active')
+// }
+// 以上代码可简写为
+
+$square.toggleClass('active', active);
 $square.on('click', function (e) {
-  // 如果有就删去，如果没有就加上
-  $square.toggleClass('active');
+  // 如果有就删去，如果没有就加上  toggleClass
+  // $square.toggleClass('active')
+  if ($square.hasClass('active')) {
+    $square.removeClass('active');
+    localStorage.setItem('app3-active', 'no');
+  } else {
+    $square.addClass('active');
+    localStorage.setItem('app3-active', 'yes');
+  }
 });
 },{"./app3.css":"app3.css","jquery":"../node_modules/jquery/dist/jquery.js"}],"app4.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -11436,7 +11455,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58058" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59779" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
