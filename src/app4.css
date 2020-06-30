@@ -1,0 +1,28 @@
+#app4{
+
+}
+
+#app4 .circle {
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 30vh;
+  height: 30vh;
+  border-radius: 50%;
+  border: 1px solid crimson;
+}
+
+#app4 .circle.active {
+  animation: change 1s infinite alternate linear;
+
+
+}
+@keyframes change {
+  0% {
+    background: crimson;
+  }
+
+  100% {
+    background: deepskyblue;
+  }
+
+}
